@@ -36,7 +36,7 @@ publishing {
         }
     }
     publications {
-        maven(MavenPublication) {
+        gpr(MavenPublication) {
             groupId = 'io.github.alamer'
             artifactId = 'spring-gradle-github-actions'
             version = '0.0.1-SNAPSHOT'
