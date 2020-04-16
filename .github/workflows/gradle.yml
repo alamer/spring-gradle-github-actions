@@ -49,12 +49,13 @@ jobs:
     needs: [build]
     env:
       REPO: ${{ secrets.DOCKER_REPO }}
+      REPO_GITHUB: docker.pkg.github.com/alamer/spring-gradle-github-actions
     steps:
       - uses: actions/checkout@v1
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11.0.4
+#      - name: Set up JDK 11
+#        uses: actions/setup-java@v1
+#        with:
+#          java-version: 11.0.4
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
       - name: Build Docker image
@@ -65,3 +66,7 @@ jobs:
         run: echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_ACTOR} --password-stdin docker.pkg.github.com
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Docker for github image
+        run: docker build -t $REPO_GITHUB:latest -t $REPO_GITHUB:${GITHUB_SHA::8} .
+      - name: Publish Docker image in github
+        run: docker push $REPO_GITHUB
