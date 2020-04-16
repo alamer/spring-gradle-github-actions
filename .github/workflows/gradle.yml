@@ -49,7 +49,7 @@ jobs:
     needs: [build]
     env:
       REPO: ${{ secrets.DOCKER_REPO }}
-      REPO_GITHUB: alamer/spring-gradle-github-actions
+      REPO_GITHUB: docker.pkg.github.com/alamer/spring-gradle-github-actions
     steps:
       - uses: actions/checkout@v1
 #      - name: Set up JDK 11
