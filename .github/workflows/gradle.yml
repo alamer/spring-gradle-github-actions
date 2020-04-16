@@ -49,8 +49,6 @@ jobs:
     needs: [build]
     env:
       REPO: ${{ secrets.DOCKER_REPO }}
-
-
     steps:
       - uses: actions/checkout@v1
       - name: Set up JDK 11
@@ -63,3 +61,7 @@ jobs:
         run: docker build -t $REPO:latest -t $REPO:${GITHUB_SHA::8} .
       - name: Publish Docker image
         run: docker push $REPO
+      - name: login to Github Packages
+        run: echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_ACTOR} --password-stdin docker.pkg.github.com
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
